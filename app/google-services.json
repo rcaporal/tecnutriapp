@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_number": "608069526744",
+    "firebase_url": "https://tecnutriapp.firebaseio.com",
+    "project_id": "tecnutriapp",
+    "storage_bucket": "tecnutriapp.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:608069526744:android:578c8729cc30adf1",
+        "android_client_info": {
+          "package_name": "com.example.caporal.tecnutriapp"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "608069526744-75hu1d7i3laqemgeflpbqhn4pm65klh8.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.caporal.tecnutriapp",
+            "certificate_hash": "6e777dff9e6ed8c5de4be6421b5a871880eb57f3"
+          }
+        },
+        {
+          "client_id": "608069526744-uaao2b160te4f3kf696utlvmcamp67fm.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDCG63MorWBJK0Lwy7oZdeIbBRlbeUbAMw"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "608069526744-uaao2b160te4f3kf696utlvmcamp67fm.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
