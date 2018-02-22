@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">tecnutriapp</string>
+    <string name="meal_of">Refeição de</string>
+    <string name="kcal">kcal</string>
 </resources>
