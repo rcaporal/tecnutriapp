@@ -2,10 +2,10 @@ package com.example.caporal.tecnutriapp.ui.base.activity;
 
 import android.app.Activity;
 import android.support.annotation.Nullable;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.widget.Toast;
 
 import com.example.caporal.tecnutriapp.R;
 import com.example.caporal.tecnutriapp.ui.base.activity.adapters.FeedAdapter;
@@ -22,7 +22,8 @@ public class MainActivity extends BaseActivity implements MainActivityPresenter.
     RecyclerView mainRecyclerView;
 
     private FeedAdapter feedAdapter;
-    private MainActivityPresenter presenter;
+    private MainActivityImpl presenter;
+    private boolean isRequesting;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -34,8 +35,25 @@ public class MainActivity extends BaseActivity implements MainActivityPresenter.
         presenter.setView(this);
 
         mainRecyclerView.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
-        feedAdapter = new FeedAdapter();
-        mainRecyclerView.setAdapter(feedAdapter);
+        presenter.configAdapter();
+
+        setRefreshing(true);
+
+        mainRecyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
+            @Override
+            public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
+                super.onScrolled(recyclerView, dx, dy);
+                LinearLayoutManager layoutManager=LinearLayoutManager.class.cast(recyclerView.getLayoutManager());
+                int totalItemCount = layoutManager.getItemCount();
+                int lastVisible = layoutManager.findLastVisibleItemPosition();
+
+                boolean endHasBeenReached = lastVisible + 5 >= totalItemCount;
+                if (totalItemCount > 0 && endHasBeenReached && !isRequesting) {
+                    isRequesting = true;
+                    presenter.getMoreCards();
+                }
+            }
+        });
     }
 
     @Override
@@ -45,6 +63,28 @@ public class MainActivity extends BaseActivity implements MainActivityPresenter.
 
     @Override
     public void showSnackBar(String message) {
+        Toast.makeText(getApplicationContext(), message, Toast.LENGTH_LONG).show();
+    }
 
+    @Override
+    public void setAdapterOnRecycler(FeedAdapter adapter) {
+        this.feedAdapter = adapter;
+        mainRecyclerView.setAdapter(feedAdapter);
+    }
+
+    @Override
+    public void setIsRefreshing(boolean refreshing) {
+        setRefreshing(refreshing);
+    }
+
+    @Override
+    public void setIsRequesting(boolean requesting) {
+        this.isRequesting = requesting;
+    }
+
+
+    @Override
+    public void onRefresh() {
+        presenter.reloadAdapterList();
     }
 }
