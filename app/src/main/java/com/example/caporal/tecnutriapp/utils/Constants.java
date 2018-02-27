@@ -5,5 +5,6 @@ package com.example.caporal.tecnutriapp.utils;
  */
 
 public class Constants {
-
+    public static final String baseUrl = "http://api.tecnonutri.com.br/api/v4/";
+    public static final String FEED_HASH_STRING_PARCELABLE = "feedHashString";
 }

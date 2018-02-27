@@ -1,5 +1,7 @@
 package com.example.caporal.tecnutriapp.domain.entity;
 
+import com.google.gson.annotations.SerializedName;
+
 /**
  * Created by caporal on 22/02/18.
  */
@@ -9,7 +11,8 @@ public class Profile {
     private long id;
     private String name;
     private String image;
-    private String general_goal;
+    @SerializedName("general_goal")
+    private String generalGoal;
 
     public long getId() {
         return id;
@@ -35,11 +38,11 @@ public class Profile {
         this.image = image;
     }
 
-    public String getGeneral_goal() {
-        return general_goal;
+    public String getGeneralGoal() {
+        return generalGoal;
     }
 
-    public void setGeneral_goal(String general_goal) {
-        this.general_goal = general_goal;
+    public void setGeneralGoal(String generalGoal) {
+        this.generalGoal = generalGoal;
     }
 }

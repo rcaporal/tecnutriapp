@@ -1,6 +1,6 @@
 package com.example.caporal.tecnutriapp.api;
 
-import com.example.caporal.tecnutriapp.utils.ConstantsUtil;
+import com.example.caporal.tecnutriapp.utils.Constants;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
@@ -19,7 +19,7 @@ public class ApiClient {
                 .create();
 
         Retrofit retrofit = new Retrofit.Builder()
-                .baseUrl(ConstantsUtil.baseUrl)
+                .baseUrl(Constants.baseUrl)
                 .addConverterFactory(GsonConverterFactory.create(gson))
                 .build();
 

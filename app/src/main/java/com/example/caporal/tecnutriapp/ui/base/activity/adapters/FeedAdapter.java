@@ -13,6 +13,7 @@ import com.example.caporal.tecnutriapp.R;
 import com.example.caporal.tecnutriapp.domain.entity.Card;
 import com.example.caporal.tecnutriapp.domain.entity.Profile;
 import com.example.caporal.tecnutriapp.ui.base.activity.listeners.OnItemProfileClickListener;
+import com.example.caporal.tecnutriapp.ui.base.activity.listeners.OnPostBodyClickListener;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
@@ -31,11 +32,14 @@ public class FeedAdapter extends RecyclerView.Adapter<FeedAdapter.MyViewHolder> 
     private Context context;
     private List<Card> cardList;
     private OnItemProfileClickListener onItemProfileClickListener;
+    private OnPostBodyClickListener onPostBodyClickListener;
 
-    public FeedAdapter(Context context, OnItemProfileClickListener onItemProfileClickListener) {
+    public FeedAdapter(Context context, OnItemProfileClickListener onItemProfileClickListener,
+                       OnPostBodyClickListener onPostBodyClickListener) {
         this.context = context;
         this.cardList = new ArrayList<>();
         this.onItemProfileClickListener = onItemProfileClickListener;
+        this.onPostBodyClickListener = onPostBodyClickListener;
     }
 
     @Override
@@ -50,7 +54,7 @@ public class FeedAdapter extends RecyclerView.Adapter<FeedAdapter.MyViewHolder> 
         final Profile profile = card.getProfile();
 
         holder.personNameTextView.setText(profile.getName());
-        holder.personGoalTextView.setText(profile.getGeneral_goal());
+        holder.personGoalTextView.setText(profile.getGeneralGoal());
         holder.postTimeTextView.setText(card.getDate());
         holder.energyTextView.setText(String.valueOf(card.getEnergy()));
         holder.likeButton.setImageResource(R.drawable.ic_favorite_border_white_24dp);
@@ -77,10 +81,17 @@ public class FeedAdapter extends RecyclerView.Adapter<FeedAdapter.MyViewHolder> 
                 holder.likeButton.setImageResource(R.drawable.ic_favorite_red_24dp);
             }
         });
+
+        holder.postBodyLayout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                onPostBodyClickListener.onPostBodyClick(card.getFeedHash());
+            }
+        });
     }
 
-    public void setCardListContent(List<Card> cards, boolean reload){
-        if(reload) {
+    public void addCardsToListContent(List<Card> cards, boolean clear){
+        if(clear){
             cardList.clear();
         }
         cardList.addAll(cards);
@@ -110,6 +121,8 @@ public class FeedAdapter extends RecyclerView.Adapter<FeedAdapter.MyViewHolder> 
         TextView energyTextView;
         @BindView(R.id.post_timestamp)
         TextView postTimeTextView;
+        @BindView(R.id.post_body_layout)
+        LinearLayout postBodyLayout;
 
 
         public MyViewHolder(View itemView) {

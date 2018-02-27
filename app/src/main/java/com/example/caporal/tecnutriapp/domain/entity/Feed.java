@@ -1,5 +1,7 @@
 package com.example.caporal.tecnutriapp.domain.entity;
 
+import com.google.gson.annotations.SerializedName;
+
 import java.util.List;
 
 /**
@@ -8,7 +10,9 @@ import java.util.List;
 
 public class Feed {
 
+    @SerializedName("t")
     private long timestamp;
+    @SerializedName("p")
     private int page;
     private List<Card> items;
 

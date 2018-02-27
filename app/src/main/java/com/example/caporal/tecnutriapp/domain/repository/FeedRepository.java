@@ -40,6 +40,7 @@ public class FeedRepository {
             @Override
             public void onResponse(Call<Feed> call, Response<Feed> response) {
                 if(response.isSuccessful()){
+                    Log.d("FeedRepository", "Success");
                     List<Card> items = response.body().getItems();
                     onGetFeed.onGetFeedSuccess(items, response.body().getPage(), response.body().getTimestamp());
                 }
@@ -48,7 +49,7 @@ public class FeedRepository {
             @Override
             public void onFailure(Call<Feed> call, Throwable t) {
                 Log.d("FeedRepository", "Failure");
-                onGetFeed.onGetFeedError("Error");
+                onGetFeed.onGetFeedError(t.getMessage());
             }
         });
     }

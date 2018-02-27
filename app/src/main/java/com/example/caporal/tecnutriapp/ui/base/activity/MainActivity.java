@@ -11,7 +11,7 @@ import com.example.caporal.tecnutriapp.R;
 import com.example.caporal.tecnutriapp.ui.base.activity.adapters.FeedAdapter;
 import com.example.caporal.tecnutriapp.ui.base.activity.base.BaseActivity;
 import com.example.caporal.tecnutriapp.ui.base.activity.presenter.MainActivityPresenter;
-import com.example.caporal.tecnutriapp.ui.base.activity.presenter.implementation.MainActivityImpl;
+import com.example.caporal.tecnutriapp.ui.base.activity.presenter.implementation.MainImpl;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -22,7 +22,7 @@ public class MainActivity extends BaseActivity implements MainActivityPresenter.
     RecyclerView mainRecyclerView;
 
     private FeedAdapter feedAdapter;
-    private MainActivityImpl presenter;
+    private MainImpl presenter;
     private boolean isRequesting;
 
     @Override
@@ -31,7 +31,7 @@ public class MainActivity extends BaseActivity implements MainActivityPresenter.
         super.onCreate(savedInstanceState);
         ButterKnife.bind(this);
 
-        presenter = new MainActivityImpl();
+        presenter = new MainImpl();
         presenter.setView(this);
 
         mainRecyclerView.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));

@@ -15,6 +15,7 @@ public interface MainActivityPresenter {
 
     void setView(MainActivityPresenter.View view);
     void configAdapter();
+    void getCards(Integer page, Long timestamp);
     void getMoreCards();
 
     interface View {
