@@ -13,7 +13,7 @@ public class Meal {
     long id;
     private Profile profile;
     @SerializedName("meal")
-    private int meal_type;
+    private int mealType;
     private String date;
     private String image;
     private float energy;
@@ -38,12 +38,12 @@ public class Meal {
         this.profile = profile;
     }
 
-    public int getMeal_type() {
-        return meal_type;
+    public int getMealType() {
+        return mealType;
     }
 
-    public void setMeal_type(int meal_type) {
-        this.meal_type = meal_type;
+    public void setMealType(int mealType) {
+        this.mealType = mealType;
     }
 
     public String getDate() {

@@ -3,4 +3,12 @@
     <string name="meal_of">Refeição de</string>
     <string name="kcal">kcal</string>
     <string name="feed_load_error">Impossível carregar o feed</string>
+    <string name="energy_label">Cal</string>
+    <string name="energy_unity">Kcal</string>
+    <string name="grams_unity">g</string>
+    <string name="carbohydrate_label">Carb</string>
+    <string name="protein_label">Prot</string>
+    <string name="fat_label">Gord</string>
+    <string name="food_grams_mask">(%s g)</string>
+    <string name="post_load_error">Impossível carregar os detalhes da publicação</string>
 </resources>

@@ -22,7 +22,7 @@ import java.util.List;
  * Created by caporal on 22/02/18.
  */
 
-public class MainImpl implements MainActivityPresenter {
+public class MainImpl implements MainActivityPresenter, OnItemProfileClickListener, OnPostBodyClickListener {
 
 
     private View view;
@@ -38,17 +38,7 @@ public class MainImpl implements MainActivityPresenter {
 
     @Override
     public void configAdapter() {
-        adapter = new FeedAdapter(view.getActivityFromView(), new OnItemProfileClickListener() {
-            @Override
-            public void onItemProfileClick(Profile profile) {
-                view.showSnackBar(profile.getName());
-            }
-        }, new OnPostBodyClickListener() {
-            @Override
-            public void onPostBodyClick(String feedHash) {
-                goToPostDetailsActivity(feedHash);
-            }
-        });
+        adapter = new FeedAdapter(view.getActivityFromView(), this, this);
 
         getCards(null, null);
 
@@ -92,5 +82,15 @@ public class MainImpl implements MainActivityPresenter {
         Intent intent = new Intent(activity, PostDetailsActivity.class);
         intent.putExtra(Constants.FEED_HASH_STRING_PARCELABLE, feedHash);
         activity.startActivity(intent);
+    }
+
+    @Override
+    public void onItemProfileClick(Profile profile) {
+        view.showSnackBar(profile.getName());
+    }
+
+    @Override
+    public void onPostBodyClick(String feedHash) {
+        goToPostDetailsActivity(feedHash);
     }
 }

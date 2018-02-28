@@ -2,6 +2,7 @@ package com.example.caporal.tecnutriapp.ui.base.activity.presenter;
 
 import android.app.Activity;
 
+import com.example.caporal.tecnutriapp.domain.entity.Meal;
 import com.example.caporal.tecnutriapp.ui.base.activity.adapters.PostAdapter;
 
 /**
@@ -19,5 +20,6 @@ public interface PostDetailsActivityPresenter {
         void showSnackBar(String message);
         void setAdapterOnRecycler(PostAdapter adapter);
         void setIsRefreshing(boolean refreshing);
+        void initViews(Meal meal);
     }
 }

@@ -14,6 +14,7 @@ import com.example.caporal.tecnutriapp.domain.entity.Card;
 import com.example.caporal.tecnutriapp.domain.entity.Profile;
 import com.example.caporal.tecnutriapp.ui.base.activity.listeners.OnItemProfileClickListener;
 import com.example.caporal.tecnutriapp.ui.base.activity.listeners.OnPostBodyClickListener;
+import com.example.caporal.tecnutriapp.utils.Constants;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
@@ -57,6 +58,7 @@ public class FeedAdapter extends RecyclerView.Adapter<FeedAdapter.MyViewHolder> 
         holder.personGoalTextView.setText(profile.getGeneralGoal());
         holder.postTimeTextView.setText(card.getDate());
         holder.energyTextView.setText(String.valueOf(card.getEnergy()));
+        holder.mealTypeTextView.setText(Constants.mealTypeList.get(card.getMealType()));
         holder.likeButton.setImageResource(R.drawable.ic_favorite_border_white_24dp);
 
         Picasso.with(holder.postImageView.getContext())
@@ -123,6 +125,8 @@ public class FeedAdapter extends RecyclerView.Adapter<FeedAdapter.MyViewHolder> 
         TextView postTimeTextView;
         @BindView(R.id.post_body_layout)
         LinearLayout postBodyLayout;
+        @BindView(R.id.meal_tipe_text_view)
+        TextView mealTypeTextView;
 
 
         public MyViewHolder(View itemView) {

@@ -1,5 +1,7 @@
 package com.example.caporal.tecnutriapp.domain.entity;
 
+import com.google.gson.annotations.SerializedName;
+
 /**
  * Created by caporal on 22/02/18.
  */
@@ -12,6 +14,8 @@ public class Card {
     private String image;
     private String date;
     private float energy;
+    @SerializedName("meal")
+    private int mealType;
 
     public String getFeedHash() {
         return feedHash;
@@ -59,5 +63,13 @@ public class Card {
 
     public void setImage(String image) {
         this.image = image;
+    }
+
+    public int getMealType() {
+        return mealType;
+    }
+
+    public void setMealType(int mealType) {
+        this.mealType = mealType;
     }
 }
