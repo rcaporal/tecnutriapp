@@ -15,6 +15,7 @@ import com.example.caporal.tecnutriapp.domain.entity.Profile;
 import com.example.caporal.tecnutriapp.ui.base.activity.listeners.OnItemProfileClickListener;
 import com.example.caporal.tecnutriapp.ui.base.activity.listeners.OnPostBodyClickListener;
 import com.example.caporal.tecnutriapp.utils.Constants;
+import com.example.caporal.tecnutriapp.utils.DateUtils;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
@@ -54,10 +55,25 @@ public class FeedAdapter extends RecyclerView.Adapter<FeedAdapter.MyViewHolder> 
         final Card card = cardList.get(position);
         final Profile profile = card.getProfile();
 
-        holder.personNameTextView.setText(profile.getName());
-        holder.personGoalTextView.setText(profile.getGeneralGoal());
-        holder.postTimeTextView.setText(card.getDate());
-        holder.energyTextView.setText(String.valueOf(card.getEnergy()));
+        if(profile.getName() != null) {
+            holder.personNameTextView.setText(profile.getName());
+        }
+
+        if(profile.getGeneralGoal() != null) {
+            holder.personGoalTextView.setVisibility(View.VISIBLE);
+            holder.personGoalTextView.setText(profile.getGeneralGoal());
+        }else {
+            holder.personGoalTextView.setVisibility(View.GONE);
+        }
+
+        if(card.getEnergy() != 0.0f) {
+            holder.energyTextView.setVisibility(View.VISIBLE);
+            holder.energyTextView.setText(String.format(context.getString(R.string.kcal_mask), String.valueOf(card.getEnergy())));
+        }else {
+            holder.energyTextView.setVisibility(View.GONE);
+        }
+
+        holder.postTimeTextView.setText(DateUtils.getDateFormated(card.getDate()));
         holder.mealTypeTextView.setText(Constants.mealTypeList.get(card.getMealType()));
         holder.likeButton.setImageResource(R.drawable.ic_favorite_border_white_24dp);
 

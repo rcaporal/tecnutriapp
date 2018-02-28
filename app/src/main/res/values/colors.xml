@@ -16,4 +16,6 @@
     <color name="textLightDisabled">#80FFFFFF</color> <!--80 for %50 opacity-->
     <color name="textLightDisabledDEPRECATED">#4CFFFFFF</color> <!--4C for %30 opacity-->
 
+    <color name="red">#b71c1c</color>
+
 </resources>

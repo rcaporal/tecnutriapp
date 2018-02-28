@@ -1,12 +1,15 @@
 package com.example.caporal.tecnutriapp.ui.base.activity;
 
 import android.app.Activity;
+import android.graphics.Typeface;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -17,6 +20,7 @@ import com.example.caporal.tecnutriapp.ui.base.activity.base.BaseActivity;
 import com.example.caporal.tecnutriapp.ui.base.activity.presenter.PostDetailsActivityPresenter;
 import com.example.caporal.tecnutriapp.ui.base.activity.presenter.implementation.PostDetailsImpl;
 import com.example.caporal.tecnutriapp.utils.Constants;
+import com.example.caporal.tecnutriapp.utils.DateUtils;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -46,6 +50,20 @@ public class PostDetailsActivity extends BaseActivity implements PostDetailsActi
     TextView mealTypeTextView;
     @BindView(R.id.post_timestamp)
     TextView postTimeStampTextView;
+    @BindView(R.id.food_description_textview)
+    TextView foodDescription;
+    @BindView(R.id.food_details_layout)
+    LinearLayout foodDetailsLayout;
+    @BindView(R.id.energy_text_view)
+    TextView energyTextView;
+    @BindView(R.id.carbohydrate_text_view)
+    TextView carbTextView;
+    @BindView(R.id.protein_text_view)
+    TextView proteinTextView;
+    @BindView(R.id.fat_text_view)
+    TextView fatTextView;
+
+
 
     private PostDetailsImpl presenter;
     private PostAdapter postAdapter;
@@ -91,12 +109,25 @@ public class PostDetailsActivity extends BaseActivity implements PostDetailsActi
     @Override
     public void initViews(Meal meal) {
         mealTypeTextView.setText(Constants.mealTypeList.get(meal.getMealType()));
-        postTimeStampTextView.setText(meal.getDate());
+        postTimeStampTextView.setText(DateUtils.getDateFormated(meal.getDate()));
         personNameTextView.setText(meal.getProfile().getName());
         personGoalTextView.setText(meal.getProfile().getGeneralGoal());
         presenter.getImage(personCircleImageView, meal.getProfile().getImage(), R.drawable.ic_account_circle_black_24dp);
         presenter.getImage(postImageView, meal.getImage(), R.drawable.ic_restaurant_black_24dp);
+        configMealSummaryViews(meal);
+    }
 
+    private void configMealSummaryViews(Meal meal) {
+        foodDescription.setText(R.string.food_summary);
+        foodDetailsLayout.setVisibility(View.GONE);
+        energyTextView.setText(String.valueOf(meal.getEnergy()));
+        energyTextView.setTypeface(energyTextView.getTypeface(), Typeface.BOLD);
+        carbTextView.setText(String.valueOf(meal.getCarbohydrate()));
+        carbTextView.setTypeface(carbTextView.getTypeface(), Typeface.BOLD);
+        proteinTextView.setText(String.valueOf(meal.getProtein()));
+        proteinTextView.setTypeface(proteinTextView.getTypeface(), Typeface.BOLD);
+        fatTextView.setText(String.valueOf(meal.getFat()));
+        fatTextView.setTypeface(fatTextView.getTypeface(), Typeface.BOLD);
     }
 
     @Override

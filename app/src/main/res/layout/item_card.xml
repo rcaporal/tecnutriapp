@@ -98,7 +98,7 @@
                         android:textSize="16sp"
                         android:textColor="@color/white"
                         android:layout_alignParentBottom="true"
-                        android:layout_marginStart="12dp"
+                        android:layout_marginStart="16dp"
                         android:layout_marginBottom="12dp"/>
 
                     <TextView
@@ -144,16 +144,6 @@
                     android:textColor="@color/textDarkPrimary"
                     android:textSize="16sp"/>
 
-                <TextView
-                    android:id="@+id/textView3"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginBottom="8dp"
-                    android:layout_marginTop="8dp"
-                    android:layout_marginStart="4dp"
-                    android:text="@string/kcal"
-                    android:textColor="@color/textDarkPrimary"
-                    android:textSize="16sp"/>
             </LinearLayout>
 
         </LinearLayout>
