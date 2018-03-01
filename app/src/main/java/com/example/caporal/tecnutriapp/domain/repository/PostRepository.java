@@ -15,19 +15,19 @@ import retrofit2.Response;
  * Created by caporal on 27/02/18.
  */
 
-public class PostDetailsRepository {
+public class PostRepository {
 
     private ApiInterface service;
-    private static PostDetailsRepository instance;
+    private static PostRepository instance;
 
-    public synchronized static PostDetailsRepository getInstance(){
+    public synchronized static PostRepository getInstance(){
         if(instance == null){
-            instance = new PostDetailsRepository();
+            instance = new PostRepository();
         }
         return instance;
     }
 
-    private PostDetailsRepository() {
+    private PostRepository() {
         ApiClient apiClient = new ApiClient();
         this.service = apiClient.getClient().create(ApiInterface.class);
     }
@@ -38,7 +38,7 @@ public class PostDetailsRepository {
             @Override
             public void onResponse(Call<Post> call, Response<Post> response) {
                 if(response.isSuccessful()){
-                    Log.d("PostDetailsRepository", "Success");
+                    Log.d("PostRepository", "Success");
                     Meal meal = response.body().getItem();
                     onGetPostDetails.onGetPostDetailsSuccess(meal);
                 }
@@ -46,7 +46,7 @@ public class PostDetailsRepository {
 
             @Override
             public void onFailure(Call<Post> call, Throwable t) {
-                Log.d("PostDetailsRepository", "Failure");
+                Log.d("PostRepository", "Failure");
                 onGetPostDetails.onGetPostDetailsError(t.getMessage());
             }
         });

@@ -15,6 +15,7 @@ import android.widget.Toast;
 
 import com.example.caporal.tecnutriapp.R;
 import com.example.caporal.tecnutriapp.domain.entity.Meal;
+import com.example.caporal.tecnutriapp.domain.entity.Profile;
 import com.example.caporal.tecnutriapp.ui.base.activity.adapters.PostAdapter;
 import com.example.caporal.tecnutriapp.ui.base.activity.base.BaseActivity;
 import com.example.caporal.tecnutriapp.ui.base.activity.presenter.PostDetailsActivityPresenter;
@@ -27,6 +28,7 @@ import butterknife.ButterKnife;
 import de.hdodenhof.circleimageview.CircleImageView;
 
 import static com.example.caporal.tecnutriapp.utils.Constants.FEED_HASH_STRING_PARCELABLE;
+import static com.example.caporal.tecnutriapp.utils.Constants.PROFILE_STRING_PARCELABLE;
 
 /**
  * Created by caporal on 27/02/18.
@@ -62,12 +64,13 @@ public class PostDetailsActivity extends BaseActivity implements PostDetailsActi
     TextView proteinTextView;
     @BindView(R.id.fat_text_view)
     TextView fatTextView;
-
-
+    @BindView(R.id.card_header_layout)
+    LinearLayout cardHeaderLayout;
 
     private PostDetailsImpl presenter;
     private PostAdapter postAdapter;
     private RecyclerView.LayoutManager linearLayoutManager;
+    private Profile profile;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -79,6 +82,7 @@ public class PostDetailsActivity extends BaseActivity implements PostDetailsActi
         presenter.setView(this);
         Bundle extras = getIntent().getExtras();
         if (extras != null) {
+            profile = extras.getParcelable(PROFILE_STRING_PARCELABLE);
             presenter.setFeedHash(extras.getString(FEED_HASH_STRING_PARCELABLE));
         }
 
@@ -96,6 +100,13 @@ public class PostDetailsActivity extends BaseActivity implements PostDetailsActi
         getSupportActionBar().setDisplayShowHomeEnabled(true);
 
         setRefreshing(true);
+
+        cardHeaderLayout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                presenter.goToProfileActivity(profile);
+            }
+        });
     }
 
     @Override

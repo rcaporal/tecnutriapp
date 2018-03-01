@@ -103,7 +103,7 @@ public class FeedAdapter extends RecyclerView.Adapter<FeedAdapter.MyViewHolder> 
         holder.postBodyLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                onPostBodyClickListener.onPostBodyClick(card.getFeedHash());
+                onPostBodyClickListener.onPostBodyClick(card);
             }
         });
     }

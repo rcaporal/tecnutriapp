@@ -10,6 +10,9 @@
     <string name="fat_label">Gord</string>
     <string name="food_grams_mask">(%s g)</string>
     <string name="post_load_error">Impossível carregar os detalhes da publicação</string>
+    <string name="mini_post_load_error">Impossível carregar as publicações do usuário</string>
     <string name="food_summary">Total Consumido</string>
     <string name="kcal_mask">%s kcal</string>
+    <string name="profile_name">Nome do Usuário</string>
+    <string name="profile_goal">Objetivo</string>
 </resources>

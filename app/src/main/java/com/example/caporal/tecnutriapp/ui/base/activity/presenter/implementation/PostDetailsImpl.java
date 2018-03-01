@@ -1,18 +1,21 @@
 package com.example.caporal.tecnutriapp.ui.base.activity.presenter.implementation;
 
+import android.app.Activity;
+import android.content.Intent;
 import android.widget.ImageView;
 
 import com.example.caporal.tecnutriapp.R;
 import com.example.caporal.tecnutriapp.domain.entity.Food;
 import com.example.caporal.tecnutriapp.domain.entity.Meal;
-import com.example.caporal.tecnutriapp.domain.repository.PostDetailsRepository;
+import com.example.caporal.tecnutriapp.domain.entity.Profile;
+import com.example.caporal.tecnutriapp.domain.repository.PostRepository;
+import com.example.caporal.tecnutriapp.ui.base.activity.ProfileActivity;
 import com.example.caporal.tecnutriapp.ui.base.activity.adapters.PostAdapter;
 import com.example.caporal.tecnutriapp.ui.base.activity.presenter.PostDetailsActivityPresenter;
+import com.example.caporal.tecnutriapp.utils.Constants;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
-
-import de.hdodenhof.circleimageview.CircleImageView;
 
 /**
  * Created by caporal on 27/02/18.
@@ -38,7 +41,7 @@ public class PostDetailsImpl implements PostDetailsActivityPresenter {
 
     @Override
     public void getPost(String feedHash) {
-        PostDetailsRepository.getInstance().getPost(feedHash, new PostDetailsRepository.OnGetPostDetails() {
+        PostRepository.getInstance().getPost(feedHash, new PostRepository.OnGetPostDetails() {
             @Override
             public void onGetPostDetailsSuccess(Meal meal) {
                 view.initViews(meal);
@@ -69,4 +72,12 @@ public class PostDetailsImpl implements PostDetailsActivityPresenter {
                 .load(url).placeholder(placeHolderDrawable)
                 .into(imageView);
     }
+
+    public void goToProfileActivity(Profile profile){
+        Activity activity = view.getActivityFromView();
+        Intent intent = new Intent(activity, ProfileActivity.class);
+        intent.putExtra(Constants.PROFILE_STRING_PARCELABLE, profile);
+        activity.startActivity(intent);
+    }
+
 }

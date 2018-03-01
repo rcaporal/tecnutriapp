@@ -9,6 +9,7 @@ import com.example.caporal.tecnutriapp.domain.entity.Card;
 import com.example.caporal.tecnutriapp.domain.entity.Profile;
 import com.example.caporal.tecnutriapp.domain.repository.FeedRepository;
 import com.example.caporal.tecnutriapp.ui.base.activity.PostDetailsActivity;
+import com.example.caporal.tecnutriapp.ui.base.activity.ProfileActivity;
 import com.example.caporal.tecnutriapp.ui.base.activity.adapters.FeedAdapter;
 import com.example.caporal.tecnutriapp.ui.base.activity.listeners.OnItemProfileClickListener;
 import com.example.caporal.tecnutriapp.ui.base.activity.listeners.OnPostBodyClickListener;
@@ -17,6 +18,9 @@ import com.example.caporal.tecnutriapp.utils.Constants;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import static com.example.caporal.tecnutriapp.utils.Constants.FEED_HASH_STRING_PARCELABLE;
+import static com.example.caporal.tecnutriapp.utils.Constants.PROFILE_STRING_PARCELABLE;
 
 /**
  * Created by caporal on 22/02/18.
@@ -77,20 +81,28 @@ public class MainImpl implements MainActivityPresenter, OnItemProfileClickListen
         getCards(null, null);
     }
 
-    private void goToPostDetailsActivity(String feedHash){
+    private void goToPostDetailsActivity(Card card){
         Activity activity = view.getActivityFromView();
         Intent intent = new Intent(activity, PostDetailsActivity.class);
-        intent.putExtra(Constants.FEED_HASH_STRING_PARCELABLE, feedHash);
+        intent.putExtra(FEED_HASH_STRING_PARCELABLE, card.getFeedHash());
+        intent.putExtra(PROFILE_STRING_PARCELABLE, card.getProfile());
+        activity.startActivity(intent);
+    }
+
+    private void goToProfileActivity(Profile profile){
+        Activity activity = view.getActivityFromView();
+        Intent intent = new Intent(activity, ProfileActivity.class);
+        intent.putExtra(PROFILE_STRING_PARCELABLE, profile);
         activity.startActivity(intent);
     }
 
     @Override
     public void onItemProfileClick(Profile profile) {
-        view.showSnackBar(profile.getName());
+        goToProfileActivity(profile);
     }
 
     @Override
-    public void onPostBodyClick(String feedHash) {
-        goToPostDetailsActivity(feedHash);
+    public void onPostBodyClick(Card card) {
+        goToPostDetailsActivity(card);
     }
 }

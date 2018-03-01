@@ -1,8 +1,8 @@
 package com.example.caporal.tecnutriapp.api;
 
 import com.example.caporal.tecnutriapp.domain.entity.Feed;
-import com.example.caporal.tecnutriapp.domain.entity.Meal;
 import com.example.caporal.tecnutriapp.domain.entity.Post;
+import com.example.caporal.tecnutriapp.domain.entity.MiniPostRequest;
 
 import retrofit2.Call;
 import retrofit2.http.GET;
@@ -20,5 +20,8 @@ public interface ApiInterface {
 
     @GET("feed/{feedHash}")
     Call<Post> getPostDetailsByHash(@Path("feedHash") String feedHash);
+
+    @GET("profile/{id}")
+    Call<MiniPostRequest> findPostsByUserId(@Path("id") Long id, @Query("p") Integer p, @Query("t") Long t);
 
 }
