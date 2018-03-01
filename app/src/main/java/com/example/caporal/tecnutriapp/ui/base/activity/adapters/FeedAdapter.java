@@ -74,7 +74,7 @@ public class FeedAdapter extends RecyclerView.Adapter<FeedAdapter.MyViewHolder> 
         }
 
         holder.postTimeTextView.setText(DateUtils.getDateFormated(card.getDate()));
-        holder.mealTypeTextView.setText(Constants.mealTypeList.get(card.getMealType()));
+        holder.mealTypeTextView.setText(Constants.MEAL_TYPE_LIST.get(card.getMealType()));
         holder.likeButton.setImageResource(R.drawable.ic_favorite_border_white_24dp);
 
         Picasso.with(holder.postImageView.getContext())

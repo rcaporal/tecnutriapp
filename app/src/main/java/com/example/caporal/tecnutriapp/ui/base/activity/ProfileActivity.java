@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.StaggeredGridLayoutManager;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
@@ -17,12 +18,12 @@ import com.example.caporal.tecnutriapp.ui.base.activity.adapters.MiniPostAdapter
 import com.example.caporal.tecnutriapp.ui.base.activity.base.BaseActivity;
 import com.example.caporal.tecnutriapp.ui.base.activity.presenter.ProfileActivityPresenter;
 import com.example.caporal.tecnutriapp.ui.base.activity.presenter.implementation.ProfileImpl;
-import com.example.caporal.tecnutriapp.utils.Constants;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
 import static com.example.caporal.tecnutriapp.utils.Constants.PROFILE_STRING_PARCELABLE;
+import static com.example.caporal.tecnutriapp.utils.Constants.MINI_POST_PAGE_SIZE;
 
 /**
  * Created by caporal on 28/02/18.
@@ -65,6 +66,27 @@ public class ProfileActivity extends BaseActivity implements ProfileActivityPres
 
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
+
+        profileRecycler.addOnScrollListener(new RecyclerView.OnScrollListener() {
+            @Override
+            public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
+                super.onScrolled(recyclerView, dx, dy);
+                StaggeredGridLayoutManager gridLayoutManager = StaggeredGridLayoutManager.class.cast(recyclerView.getLayoutManager());
+
+                int totalItemCount = gridLayoutManager.getItemCount();
+                if(totalItemCount == MINI_POST_PAGE_SIZE * presenter.getActualPage()) {
+                    int[] lastVisible = new int[3];
+                    gridLayoutManager.findLastVisibleItemPositions(lastVisible);
+
+                    boolean endHasBeenReached = lastVisible[0] + 9 >= totalItemCount;
+                    if (totalItemCount > 0 && endHasBeenReached && !isRequesting) {
+                        Log.d("ProfileRecycler", "last visible " + lastVisible[0] + " of " + totalItemCount);
+                        isRequesting = true;
+                        presenter.getMoreMiniPosts();
+                    }
+                }
+            }
+        });
 
         setRefreshing(true);
     }

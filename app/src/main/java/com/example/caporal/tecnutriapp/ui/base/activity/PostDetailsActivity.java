@@ -119,7 +119,7 @@ public class PostDetailsActivity extends BaseActivity implements PostDetailsActi
 
     @Override
     public void initViews(Meal meal) {
-        mealTypeTextView.setText(Constants.mealTypeList.get(meal.getMealType()));
+        mealTypeTextView.setText(Constants.MEAL_TYPE_LIST.get(meal.getMealType()));
         postTimeStampTextView.setText(DateUtils.getDateFormated(meal.getDate()));
         personNameTextView.setText(meal.getProfile().getName());
         personGoalTextView.setText(meal.getProfile().getGeneralGoal());

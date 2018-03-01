@@ -100,4 +100,8 @@ public class ProfileImpl implements ProfileActivityPresenter, OnMiniPostItemClic
                 .load(url).placeholder(placeHolderDrawable)
                 .into(imageView);
     }
+
+    public int getActualPage(){
+        return this.p + 1;
+    }
 }
