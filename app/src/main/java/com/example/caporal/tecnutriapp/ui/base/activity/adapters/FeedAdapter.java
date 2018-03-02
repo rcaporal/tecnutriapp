@@ -14,7 +14,6 @@ import com.example.caporal.tecnutriapp.domain.entity.Card;
 import com.example.caporal.tecnutriapp.domain.entity.Profile;
 import com.example.caporal.tecnutriapp.ui.base.activity.listeners.OnItemProfileClickListener;
 import com.example.caporal.tecnutriapp.ui.base.activity.listeners.OnPostBodyClickListener;
-import com.example.caporal.tecnutriapp.utils.Constants;
 import com.example.caporal.tecnutriapp.utils.DateUtils;
 import com.squareup.picasso.Picasso;
 
@@ -35,6 +34,7 @@ public class FeedAdapter extends RecyclerView.Adapter<FeedAdapter.MyViewHolder> 
     private List<Card> cardList;
     private OnItemProfileClickListener onItemProfileClickListener;
     private OnPostBodyClickListener onPostBodyClickListener;
+    private String[] mealTypeArray;
 
     public FeedAdapter(Context context, OnItemProfileClickListener onItemProfileClickListener,
                        OnPostBodyClickListener onPostBodyClickListener) {
@@ -42,6 +42,7 @@ public class FeedAdapter extends RecyclerView.Adapter<FeedAdapter.MyViewHolder> 
         this.cardList = new ArrayList<>();
         this.onItemProfileClickListener = onItemProfileClickListener;
         this.onPostBodyClickListener = onPostBodyClickListener;
+        this.mealTypeArray = context.getResources().getStringArray(R.array.meal_type_array);
     }
 
     @Override
@@ -74,7 +75,7 @@ public class FeedAdapter extends RecyclerView.Adapter<FeedAdapter.MyViewHolder> 
         }
 
         holder.postTimeTextView.setText(DateUtils.getDateFormated(card.getDate()));
-        holder.mealTypeTextView.setText(Constants.MEAL_TYPE_LIST.get(card.getMealType()));
+        holder.mealTypeTextView.setText(mealTypeArray[card.getMealType()]);
         holder.likeButton.setImageResource(R.drawable.ic_favorite_border_white_24dp);
 
         Picasso.with(holder.postImageView.getContext())

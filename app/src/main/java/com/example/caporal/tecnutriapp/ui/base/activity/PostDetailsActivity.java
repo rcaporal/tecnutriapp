@@ -71,12 +71,15 @@ public class PostDetailsActivity extends BaseActivity implements PostDetailsActi
     private PostAdapter postAdapter;
     private RecyclerView.LayoutManager linearLayoutManager;
     private Profile profile;
+    private String[] mealTypeArray;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         setContentView(R.layout.activity_post_details);
         super.onCreate(savedInstanceState);
         ButterKnife.bind(this);
+
+        mealTypeArray = getResources().getStringArray(R.array.meal_type_array);
 
         presenter = new PostDetailsImpl();
         presenter.setView(this);
@@ -119,7 +122,7 @@ public class PostDetailsActivity extends BaseActivity implements PostDetailsActi
 
     @Override
     public void initViews(Meal meal) {
-        mealTypeTextView.setText(Constants.MEAL_TYPE_LIST.get(meal.getMealType()));
+        mealTypeTextView.setText(mealTypeArray[meal.getMealType()]);
         postTimeStampTextView.setText(DateUtils.getDateFormated(meal.getDate()));
         personNameTextView.setText(meal.getProfile().getName());
         personGoalTextView.setText(meal.getProfile().getGeneralGoal());

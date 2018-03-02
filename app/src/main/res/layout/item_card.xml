@@ -44,7 +44,8 @@
                     android:textColor="@color/textDarkPrimary"
                     android:textStyle="bold"
                     android:maxLines="1"
-                    android:textSize="18sp"/>
+                    android:textSize="18sp"
+                    android:ellipsize="end"/>
 
                 <TextView
                     android:id="@+id/person_goal"

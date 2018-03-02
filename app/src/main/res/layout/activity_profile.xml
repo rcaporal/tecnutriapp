@@ -26,7 +26,10 @@
             android:text="@string/profile_name"
             android:textSize="20sp"
             android:textStyle="bold"
-            android:textColor="@color/textDarkPrimary"/>
+            android:textColor="@color/textDarkPrimary"
+            android:maxLines="2"
+            android:ellipsize="end"
+            />
 
         <TextView
             android:id="@+id/profile_goal"
@@ -53,6 +56,7 @@
     </android.support.v4.widget.SwipeRefreshLayout>
 
     <include
+        android:visibility="gone"
         layout="@layout/item_mopub_ad"
         android:layout_width="match_parent"
         android:layout_height="0dp"
