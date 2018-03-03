@@ -18,6 +18,8 @@ public class Constants {
     public static final String FEED_HASH_STRING_PARCELABLE = "feedHashString";
     public static final String PROFILE_STRING_PARCELABLE = "profileString";
     public static final int MINI_POST_PAGE_SIZE = 25;
-    public static final String MOPUB_ADS_VISIBILITY = "MOPUB_ADS_VISIBILITY";
+    public static final String MOPUB_ADS_VISIBILITY = "show_ads";
     public static final String AD_UNIT_ID = "05a5131ba47044d5801b8457c6f1a749";
+    public static final String FEEDHASH = "feedHash";
+    public static final String CARD_PARCELABLE_STRING = "cardParelableString";
 }

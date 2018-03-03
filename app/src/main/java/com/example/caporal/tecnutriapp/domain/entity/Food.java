@@ -1,10 +1,12 @@
 package com.example.caporal.tecnutriapp.domain.entity;
 
+import io.realm.RealmObject;
+
 /**
  * Created by caporal on 22/02/18.
  */
 
-public class Food {
+public class Food extends RealmObject{
 
     private String description;
     private String measure;

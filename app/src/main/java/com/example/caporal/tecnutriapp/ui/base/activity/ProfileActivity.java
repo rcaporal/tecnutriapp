@@ -13,6 +13,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.caporal.tecnutriapp.R;
+import com.example.caporal.tecnutriapp.domain.entity.Card;
 import com.example.caporal.tecnutriapp.domain.entity.Profile;
 import com.example.caporal.tecnutriapp.ui.base.activity.adapters.MiniPostAdapter;
 import com.example.caporal.tecnutriapp.ui.base.activity.base.BaseActivity;
@@ -22,6 +23,7 @@ import com.example.caporal.tecnutriapp.ui.base.activity.presenter.implementation
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
+import static com.example.caporal.tecnutriapp.utils.Constants.CARD_PARCELABLE_STRING;
 import static com.example.caporal.tecnutriapp.utils.Constants.PROFILE_STRING_PARCELABLE;
 import static com.example.caporal.tecnutriapp.utils.Constants.MINI_POST_PAGE_SIZE;
 
@@ -43,6 +45,7 @@ public class ProfileActivity extends BaseActivity implements ProfileActivityPres
     private ProfileImpl presenter;
     private MiniPostAdapter miniPostAdapter;
     private Profile profile;
+    private Card card;
     private boolean isRequesting = false;
 
     @Override
@@ -57,7 +60,9 @@ public class ProfileActivity extends BaseActivity implements ProfileActivityPres
         Bundle extras = getIntent().getExtras();
         if (extras != null) {
             profile = extras.getParcelable(PROFILE_STRING_PARCELABLE);
+            card = extras.getParcelable(CARD_PARCELABLE_STRING);
             presenter.setProfile(profile);
+            presenter.setCard(card);
         }
 
         profileRecycler.setLayoutManager(new StaggeredGridLayoutManager(3, StaggeredGridLayoutManager.VERTICAL));

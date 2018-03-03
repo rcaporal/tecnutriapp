@@ -12,10 +12,12 @@ import android.widget.TextView;
 import com.example.caporal.tecnutriapp.R;
 import com.example.caporal.tecnutriapp.domain.entity.Card;
 import com.example.caporal.tecnutriapp.domain.entity.Profile;
+import com.example.caporal.tecnutriapp.domain.repository.LikePersistenceRepository;
 import com.example.caporal.tecnutriapp.ui.base.activity.listeners.OnItemProfileClickListener;
 import com.example.caporal.tecnutriapp.ui.base.activity.listeners.OnPostBodyClickListener;
 import com.example.caporal.tecnutriapp.utils.DateUtils;
 import com.squareup.picasso.Picasso;
+
 
 import java.util.ArrayList;
 import java.util.List;
@@ -52,9 +54,10 @@ public class FeedAdapter extends RecyclerView.Adapter<FeedAdapter.MyViewHolder> 
     }
 
     @Override
-    public void onBindViewHolder(final MyViewHolder holder, int position) {
+    public void onBindViewHolder(final MyViewHolder holder, final int position) {
         final Card card = cardList.get(position);
         final Profile profile = card.getProfile();
+        Card cardAux = LikePersistenceRepository.getCardByHash(card.getFeedHash());
 
         if(profile.getName() != null) {
             holder.personNameTextView.setText(profile.getName());
@@ -76,7 +79,16 @@ public class FeedAdapter extends RecyclerView.Adapter<FeedAdapter.MyViewHolder> 
 
         holder.postTimeTextView.setText(DateUtils.getDateFormated(card.getDate()));
         holder.mealTypeTextView.setText(mealTypeArray[card.getMealType()]);
-        holder.likeButton.setImageResource(R.drawable.ic_favorite_border_white_24dp);
+
+        if(cardAux != null){
+            card.setLiked(cardAux.isLiked());
+        }
+
+        if(card.isLiked()) {
+            holder.likeButton.setImageResource(R.drawable.ic_favorite_red_24dp);
+        }else {
+            holder.likeButton.setImageResource(R.drawable.ic_favorite_border_white_24dp);
+        }
 
         Picasso.with(holder.postImageView.getContext())
                 .load(card.getImage()).placeholder(R.drawable.ic_restaurant_black_24dp)
@@ -90,14 +102,23 @@ public class FeedAdapter extends RecyclerView.Adapter<FeedAdapter.MyViewHolder> 
         holder.cardHeaderLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                onItemProfileClickListener.onItemProfileClick(profile);
+                onItemProfileClickListener.onItemProfileClick(profile, card);
             }
         });
 
         holder.likeButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                holder.likeButton.setImageResource(R.drawable.ic_favorite_red_24dp);
+                if(card.isLiked()) {
+                    card.setLiked(false);
+                    LikePersistenceRepository.saveOrUpdate(card);
+                    holder.likeButton.setImageResource(R.drawable.ic_favorite_border_white_24dp);
+
+                }else {
+                    card.setLiked(true);
+                    LikePersistenceRepository.saveOrUpdate(card);
+                    holder.likeButton.setImageResource(R.drawable.ic_favorite_red_24dp);
+                }
             }
         });
 
@@ -115,6 +136,10 @@ public class FeedAdapter extends RecyclerView.Adapter<FeedAdapter.MyViewHolder> 
         }
         cardList.addAll(cards);
         notifyDataSetChanged();
+    }
+
+    public List<Card> getCardsList(){
+        return this.cardList;
     }
 
     @Override

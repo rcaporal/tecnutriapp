@@ -1,0 +1,32 @@
+<resources>
+    <string name="app_name">Tecnonutri Feed</string>
+
+    <string name="meal_of">Meal of</string>
+    <string name="energy_label">Cal</string>
+    <string name="energy_unity">Kcal</string>
+    <string name="grams_unity">g</string>
+    <string name="carbohydrate_label">Carb</string>
+    <string name="protein_label">Prot</string>
+    <string name="fat_label">Fat</string>
+    <string name="food_grams_mask">(%s g)</string>
+    <string name="food_summary">Total amount consumed</string>
+    <string name="kcal_mask">%s kcal</string>
+
+    <string name="profile_name">Profile Name</string>
+    <string name="profile_goal">Goal</string>
+
+    <string-array name="meal_type_array">
+        <item>Breakfast</item>
+        <item>Morning Snack</item>
+        <item>Lunch</item>
+        <item>Afternoon snack</item>
+        <item>Dinner</item>
+        <item>Supper</item>
+        <item>Pre-Training</item>
+        <item>Post-Training</item>
+    </string-array>
+
+    <string name="feed_load_error">Unable to load feed</string>
+    <string name="post_load_error">Unable to load publication details</string>
+    <string name="mini_post_load_error">Unable to load user posts</string>
+</resources>

@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.widget.ImageView;
 
 import com.example.caporal.tecnutriapp.R;
+import com.example.caporal.tecnutriapp.domain.entity.Card;
 import com.example.caporal.tecnutriapp.domain.entity.MiniPost;
 import com.example.caporal.tecnutriapp.domain.entity.Profile;
 import com.example.caporal.tecnutriapp.domain.repository.ProfileRepository;
@@ -18,6 +19,7 @@ import com.squareup.picasso.Picasso;
 import java.util.ArrayList;
 import java.util.List;
 
+import static com.example.caporal.tecnutriapp.utils.Constants.CARD_PARCELABLE_STRING;
 import static com.example.caporal.tecnutriapp.utils.Constants.FEED_HASH_STRING_PARCELABLE;
 import static com.example.caporal.tecnutriapp.utils.Constants.PROFILE_STRING_PARCELABLE;
 
@@ -32,6 +34,7 @@ public class ProfileImpl implements ProfileActivityPresenter, OnMiniPostItemClic
     private Profile profile;
     private Integer p = 0;
     private Long t = 0L;
+    private Card card;
 
     @Override
     public void setView(View view) {
@@ -77,11 +80,12 @@ public class ProfileImpl implements ProfileActivityPresenter, OnMiniPostItemClic
         this.profile = profile;
     }
 
-    private void goToPostDetailsActivity(MiniPost miniPost){
+    private void goToPostDetailsActivity(MiniPost miniPost, Card card){
         Activity activity = view.getActivityFromView();
         Intent intent = new Intent(activity, PostDetailsActivity.class);
         intent.putExtra(FEED_HASH_STRING_PARCELABLE, miniPost.getFeedHash());
         intent.putExtra(PROFILE_STRING_PARCELABLE, miniPost.getProfile());
+        intent.putExtra(CARD_PARCELABLE_STRING, card);
         activity.startActivity(intent);
     }
 
@@ -92,7 +96,7 @@ public class ProfileImpl implements ProfileActivityPresenter, OnMiniPostItemClic
 
     @Override
     public void onMiniPostItemClick(MiniPost miniPost) {
-        goToPostDetailsActivity(miniPost);
+        goToPostDetailsActivity(miniPost, card);
     }
 
     public void getImage(ImageView imageView, String url, int placeHolderDrawable) {
@@ -103,5 +107,9 @@ public class ProfileImpl implements ProfileActivityPresenter, OnMiniPostItemClic
 
     public int getActualPage(){
         return this.p + 1;
+    }
+
+    public void setCard(Card card) {
+        this.card = card;
     }
 }

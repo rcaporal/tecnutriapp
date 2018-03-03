@@ -4,12 +4,17 @@ import com.google.gson.annotations.SerializedName;
 
 import java.util.List;
 
+import io.realm.RealmList;
+import io.realm.RealmObject;
+import io.realm.annotations.PrimaryKey;
+
 /**
  * Created by caporal on 22/02/18.
  */
 
-public class Meal {
+public class Meal extends RealmObject {
 
+    @PrimaryKey
     long id;
     private Profile profile;
     @SerializedName("meal")
@@ -20,7 +25,7 @@ public class Meal {
     private float carbohydrate;
     private float fat;
     private float protein;
-    private List<Food> foods;
+    private RealmList<Food> foods;
 
     public long getId() {
         return id;
@@ -94,12 +99,11 @@ public class Meal {
         this.protein = protein;
     }
 
-    public List<Food> getFoods() {
+    public RealmList<Food> getFoods() {
         return foods;
     }
 
-    public void setFoods(List<Food> foods) {
+    public void setFoods(RealmList<Food> foods) {
         this.foods = foods;
     }
-
 }

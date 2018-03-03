@@ -5,12 +5,15 @@ import android.os.Parcelable;
 
 import com.google.gson.annotations.SerializedName;
 
+import io.realm.RealmObject;
+import io.realm.annotations.PrimaryKey;
+
 /**
  * Created by caporal on 22/02/18.
  */
 
-public class Profile implements Parcelable {
-
+public class Profile extends RealmObject implements Parcelable {
+    @PrimaryKey
     private long id;
     private String name;
     private String image;

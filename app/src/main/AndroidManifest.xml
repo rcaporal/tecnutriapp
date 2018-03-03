@@ -38,6 +38,9 @@
             android:name="com.mopub.mobileads.MraidVideoPlayerActivity"
             android:configChanges="keyboardHidden|orientation|screenSize" />
 
+        <meta-data
+            android:name="io.fabric.ApiKey"
+            android:value="28e36f665fa5d1ba67de23e366e8a6ec5d8ab1d8" />
     </application>
 
 </manifest>

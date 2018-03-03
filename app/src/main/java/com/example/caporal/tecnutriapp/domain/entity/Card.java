@@ -5,12 +5,16 @@ import android.os.Parcelable;
 
 import com.google.gson.annotations.SerializedName;
 
+import io.realm.RealmObject;
+import io.realm.annotations.PrimaryKey;
+
 /**
  * Created by caporal on 22/02/18.
  */
 
-public class Card implements Parcelable {
+public class Card extends RealmObject implements Parcelable {
 
+    @PrimaryKey
     private String feedHash;
     private long id;
     private Profile profile;
@@ -19,6 +23,7 @@ public class Card implements Parcelable {
     private float energy;
     @SerializedName("meal")
     private int mealType;
+    private boolean isLiked;
 
     public String getFeedHash() {
         return feedHash;
@@ -76,6 +81,17 @@ public class Card implements Parcelable {
         this.mealType = mealType;
     }
 
+    public Card() {
+    }
+
+    public boolean isLiked() {
+        return isLiked;
+    }
+
+    public void setLiked(boolean liked) {
+        isLiked = liked;
+    }
+
     @Override
     public int describeContents() {
         return 0;
@@ -90,9 +106,7 @@ public class Card implements Parcelable {
         dest.writeString(this.date);
         dest.writeFloat(this.energy);
         dest.writeInt(this.mealType);
-    }
-
-    public Card() {
+        dest.writeByte(this.isLiked ? (byte) 1 : (byte) 0);
     }
 
     protected Card(Parcel in) {
@@ -103,9 +117,10 @@ public class Card implements Parcelable {
         this.date = in.readString();
         this.energy = in.readFloat();
         this.mealType = in.readInt();
+        this.isLiked = in.readByte() != 0;
     }
 
-    public static final Parcelable.Creator<Card> CREATOR = new Parcelable.Creator<Card>() {
+    public static final Creator<Card> CREATOR = new Creator<Card>() {
         @Override
         public Card createFromParcel(Parcel source) {
             return new Card(source);

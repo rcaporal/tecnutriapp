@@ -5,32 +5,46 @@ import android.support.annotation.Nullable;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.widget.ImageView;
 import android.widget.Toast;
 
+import com.crashlytics.android.Crashlytics;
 import com.example.caporal.tecnutriapp.R;
+import com.example.caporal.tecnutriapp.domain.entity.LikeEvent;
 import com.example.caporal.tecnutriapp.ui.base.activity.adapters.FeedAdapter;
 import com.example.caporal.tecnutriapp.ui.base.activity.base.BaseActivity;
 import com.example.caporal.tecnutriapp.ui.base.activity.presenter.MainActivityPresenter;
 import com.example.caporal.tecnutriapp.ui.base.activity.presenter.implementation.MainImpl;
 
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import io.fabric.sdk.android.Fabric;
+import io.realm.Realm;
 
 public class MainActivity extends BaseActivity implements MainActivityPresenter.View{
 
     @BindView(R.id.main_recycler_view)
     RecyclerView mainRecyclerView;
 
+
     private FeedAdapter feedAdapter;
     private MainImpl presenter;
     private boolean isRequesting;
+    private EventBus bus;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         setContentView(R.layout.activity_main);
         super.onCreate(savedInstanceState);
         ButterKnife.bind(this);
+        Fabric.with(this, new Crashlytics());
+        Realm.init(getApplicationContext());
 
+        bus = EventBus.getDefault();
         presenter = new MainImpl();
         presenter.setView(this);
 
@@ -42,7 +56,9 @@ public class MainActivity extends BaseActivity implements MainActivityPresenter.
         mainRecyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
             @Override
             public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
-                super.onScrolled(recyclerView, dx, dy);
+
+
+        super.onScrolled(recyclerView, dx, dy);
                 LinearLayoutManager layoutManager=LinearLayoutManager.class.cast(recyclerView.getLayoutManager());
                 int totalItemCount = layoutManager.getItemCount();
                 int lastVisible = layoutManager.findLastVisibleItemPosition();
@@ -54,6 +70,7 @@ public class MainActivity extends BaseActivity implements MainActivityPresenter.
                 }
             }
         });
+        bus.register(this);
     }
 
     @Override
@@ -86,5 +103,16 @@ public class MainActivity extends BaseActivity implements MainActivityPresenter.
     @Override
     public void onRefresh() {
         presenter.reloadAdapterList();
+    }
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onEvent(LikeEvent event){
+        presenter.changeCardLikeStatusByHash(event.getFeedHash(), event.isLiked());
+    }
+
+    @Override
+    protected void onDestroy() {
+        bus.unregister(this);
+        super.onDestroy();
     }
 }

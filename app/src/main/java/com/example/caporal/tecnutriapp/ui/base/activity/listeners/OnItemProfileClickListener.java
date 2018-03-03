@@ -2,6 +2,7 @@ package com.example.caporal.tecnutriapp.ui.base.activity.listeners;
 
 import android.view.View;
 
+import com.example.caporal.tecnutriapp.domain.entity.Card;
 import com.example.caporal.tecnutriapp.domain.entity.Profile;
 
 /**
@@ -9,6 +10,6 @@ import com.example.caporal.tecnutriapp.domain.entity.Profile;
  */
 
 public interface OnItemProfileClickListener {
-    void onItemProfileClick(Profile profile);
+    void onItemProfileClick(Profile profile, Card card);
 
 }

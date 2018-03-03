@@ -56,7 +56,6 @@
     </android.support.v4.widget.SwipeRefreshLayout>
 
     <include
-        android:visibility="gone"
         layout="@layout/item_mopub_ad"
         android:layout_width="match_parent"
         android:layout_height="0dp"

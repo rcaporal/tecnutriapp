@@ -1,4 +1,14 @@
+buildscript {
+    repositories {
+        maven { url 'https://maven.fabric.io/public' }
+    }
+
+    dependencies {
+        classpath 'io.fabric.tools:gradle:1.+'
+    }
+}
 apply plugin: 'com.android.application'
+apply plugin: 'io.fabric'
 
 android {
     compileSdkVersion 26
@@ -10,6 +20,17 @@ android {
         versionName "1.0"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }
+
+    productFlavors {
+        cyan {
+            flavorDimensions "default"
+        }
+        orange {
+            flavorDimensions "default"
+        }
+
+    }
+
     buildTypes {
         release {
             minifyEnabled false
@@ -20,6 +41,7 @@ android {
 
 repositories {
     maven { url "https://s3.amazonaws.com/moat-sdk-builds" }
+    maven { url 'https://maven.fabric.io/public' }
 }
 
 dependencies {
@@ -42,6 +64,9 @@ dependencies {
     annotationProcessor 'com.jakewharton:butterknife-compiler:8.8.1'
     implementation 'com.squareup.picasso:picasso:2.5.2'
 
+    //EventBus
+    compile 'org.greenrobot:eventbus:3.1.1'
+
     //RefreshLayout
     compile 'com.baoyz.pullrefreshlayout:library:1.2.0'
 
@@ -58,6 +83,9 @@ dependencies {
         transitive = true
         exclude module: 'libAvid-mopub' // To exclude AVID
         exclude module: 'moat-mobile-app-kit' // To exclude Moat
+    }
+    compile('com.crashlytics.sdk.android:crashlytics:2.9.1@aar') {
+        transitive = true;
     }
 
 }
