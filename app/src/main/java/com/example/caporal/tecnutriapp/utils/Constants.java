@@ -21,5 +21,5 @@ public class Constants {
     public static final String MOPUB_ADS_VISIBILITY = "show_ads";
     public static final String AD_UNIT_ID = "05a5131ba47044d5801b8457c6f1a749";
     public static final String FEEDHASH = "feedHash";
-    public static final String CARD_PARCELABLE_STRING = "cardParelableString";
+    public static final String IS_LIKED_STRING = "isLikedString";
 }

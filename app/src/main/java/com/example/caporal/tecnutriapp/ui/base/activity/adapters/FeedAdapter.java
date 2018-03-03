@@ -11,6 +11,7 @@ import android.widget.TextView;
 
 import com.example.caporal.tecnutriapp.R;
 import com.example.caporal.tecnutriapp.domain.entity.Card;
+import com.example.caporal.tecnutriapp.domain.entity.LikeEvent;
 import com.example.caporal.tecnutriapp.domain.entity.Profile;
 import com.example.caporal.tecnutriapp.domain.repository.LikePersistenceRepository;
 import com.example.caporal.tecnutriapp.ui.base.activity.listeners.OnItemProfileClickListener;
@@ -57,7 +58,7 @@ public class FeedAdapter extends RecyclerView.Adapter<FeedAdapter.MyViewHolder> 
     public void onBindViewHolder(final MyViewHolder holder, final int position) {
         final Card card = cardList.get(position);
         final Profile profile = card.getProfile();
-        Card cardAux = LikePersistenceRepository.getCardByHash(card.getFeedHash());
+        LikeEvent likeEvent = LikePersistenceRepository.getIsLikedByHash(card.getFeedHash());
 
         if(profile.getName() != null) {
             holder.personNameTextView.setText(profile.getName());
@@ -80,8 +81,10 @@ public class FeedAdapter extends RecyclerView.Adapter<FeedAdapter.MyViewHolder> 
         holder.postTimeTextView.setText(DateUtils.getDateFormated(card.getDate()));
         holder.mealTypeTextView.setText(mealTypeArray[card.getMealType()]);
 
-        if(cardAux != null){
-            card.setLiked(cardAux.isLiked());
+        if(likeEvent != null){
+            card.setLiked(likeEvent.isLiked());
+        }else {
+            card.setLiked(false);
         }
 
         if(card.isLiked()) {
@@ -111,12 +114,12 @@ public class FeedAdapter extends RecyclerView.Adapter<FeedAdapter.MyViewHolder> 
             public void onClick(View view) {
                 if(card.isLiked()) {
                     card.setLiked(false);
-                    LikePersistenceRepository.saveOrUpdate(card);
+                    LikePersistenceRepository.saveOrUpdate(new LikeEvent(card.getFeedHash(), card.isLiked()));
                     holder.likeButton.setImageResource(R.drawable.ic_favorite_border_white_24dp);
 
                 }else {
                     card.setLiked(true);
-                    LikePersistenceRepository.saveOrUpdate(card);
+                    LikePersistenceRepository.saveOrUpdate(new LikeEvent(card.getFeedHash(), card.isLiked()));
                     holder.likeButton.setImageResource(R.drawable.ic_favorite_red_24dp);
                 }
             }

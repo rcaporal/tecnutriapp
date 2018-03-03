@@ -1,6 +1,7 @@
 package com.example.caporal.tecnutriapp.domain.repository;
 
 import com.example.caporal.tecnutriapp.domain.entity.Card;
+import com.example.caporal.tecnutriapp.domain.entity.LikeEvent;
 import com.example.caporal.tecnutriapp.utils.Constants;
 
 import io.realm.Realm;
@@ -13,20 +14,19 @@ import static com.example.caporal.tecnutriapp.utils.Constants.FEEDHASH;
 
 public class LikePersistenceRepository {
 
-    public static void saveOrUpdate(final Card card) {
+    public static void saveOrUpdate(final LikeEvent likeEvent) {
         Realm realm = Realm.getDefaultInstance();
         realm.executeTransaction(new Realm.Transaction() {
             @Override
             public void execute(Realm realm) {
-                realm.copyToRealmOrUpdate(card);
+                realm.copyToRealmOrUpdate(likeEvent);
             }
         });
     }
 
-    public static Card getCardByHash(String feedHash) {
+    public static LikeEvent getIsLikedByHash(String feedHash) {
         Realm realm = Realm.getDefaultInstance();
-        return realm.where(Card.class).equalTo(FEEDHASH, feedHash).findFirst();
+        return realm.where(LikeEvent.class).equalTo(FEEDHASH, feedHash).findFirst();
     }
-
 
 }

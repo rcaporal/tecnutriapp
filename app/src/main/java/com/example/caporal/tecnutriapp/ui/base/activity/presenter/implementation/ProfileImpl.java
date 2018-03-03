@@ -5,22 +5,22 @@ import android.content.Intent;
 import android.widget.ImageView;
 
 import com.example.caporal.tecnutriapp.R;
-import com.example.caporal.tecnutriapp.domain.entity.Card;
+import com.example.caporal.tecnutriapp.domain.entity.LikeEvent;
 import com.example.caporal.tecnutriapp.domain.entity.MiniPost;
 import com.example.caporal.tecnutriapp.domain.entity.Profile;
+import com.example.caporal.tecnutriapp.domain.repository.LikePersistenceRepository;
 import com.example.caporal.tecnutriapp.domain.repository.ProfileRepository;
 import com.example.caporal.tecnutriapp.ui.base.activity.PostDetailsActivity;
 import com.example.caporal.tecnutriapp.ui.base.activity.adapters.MiniPostAdapter;
 import com.example.caporal.tecnutriapp.ui.base.activity.listeners.OnMiniPostItemClickListener;
 import com.example.caporal.tecnutriapp.ui.base.activity.presenter.ProfileActivityPresenter;
-import com.example.caporal.tecnutriapp.utils.Constants;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import static com.example.caporal.tecnutriapp.utils.Constants.CARD_PARCELABLE_STRING;
 import static com.example.caporal.tecnutriapp.utils.Constants.FEED_HASH_STRING_PARCELABLE;
+import static com.example.caporal.tecnutriapp.utils.Constants.IS_LIKED_STRING;
 import static com.example.caporal.tecnutriapp.utils.Constants.PROFILE_STRING_PARCELABLE;
 
 /**
@@ -34,7 +34,6 @@ public class ProfileImpl implements ProfileActivityPresenter, OnMiniPostItemClic
     private Profile profile;
     private Integer p = 0;
     private Long t = 0L;
-    private Card card;
 
     @Override
     public void setView(View view) {
@@ -80,12 +79,17 @@ public class ProfileImpl implements ProfileActivityPresenter, OnMiniPostItemClic
         this.profile = profile;
     }
 
-    private void goToPostDetailsActivity(MiniPost miniPost, Card card){
+    private void goToPostDetailsActivity(MiniPost miniPost){
         Activity activity = view.getActivityFromView();
         Intent intent = new Intent(activity, PostDetailsActivity.class);
         intent.putExtra(FEED_HASH_STRING_PARCELABLE, miniPost.getFeedHash());
         intent.putExtra(PROFILE_STRING_PARCELABLE, miniPost.getProfile());
-        intent.putExtra(CARD_PARCELABLE_STRING, card);
+        LikeEvent likeEvent = LikePersistenceRepository.getIsLikedByHash(miniPost.getFeedHash());
+        if(likeEvent != null){
+            intent.putExtra(IS_LIKED_STRING, likeEvent.isLiked());
+        }else{
+            intent.putExtra(IS_LIKED_STRING, false);
+        }
         activity.startActivity(intent);
     }
 
@@ -96,7 +100,7 @@ public class ProfileImpl implements ProfileActivityPresenter, OnMiniPostItemClic
 
     @Override
     public void onMiniPostItemClick(MiniPost miniPost) {
-        goToPostDetailsActivity(miniPost, card);
+        goToPostDetailsActivity(miniPost);
     }
 
     public void getImage(ImageView imageView, String url, int placeHolderDrawable) {
@@ -109,7 +113,4 @@ public class ProfileImpl implements ProfileActivityPresenter, OnMiniPostItemClic
         return this.p + 1;
     }
 
-    public void setCard(Card card) {
-        this.card = card;
-    }
 }

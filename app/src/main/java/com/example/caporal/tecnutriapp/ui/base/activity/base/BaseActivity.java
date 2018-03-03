@@ -68,19 +68,12 @@ public abstract class BaseActivity extends AppCompatActivity implements SwipeRef
             @Override
             public void onSuccess(Void aVoid) {
                 mFirebaseRemoteConfig.activateFetched();
-                configAdsVisibility();
             }
         });
     }
 
-    private void configAdsVisibility() {
-        if (mFirebaseRemoteConfig.getBoolean(MOPUB_ADS_VISIBILITY)) {
-            moPubView.loadAd();
-            moPubView.setVisibility(View.VISIBLE);
-        } else {
-            moPubView.setVisibility(View.GONE);
-            moPubView.destroy();
-        }
+    public boolean getAdsVisibility(){
+        return mFirebaseRemoteConfig.getBoolean(MOPUB_ADS_VISIBILITY);
     }
 
     public void setRefreshing(boolean isRefreshing){

@@ -19,11 +19,11 @@ import com.example.caporal.tecnutriapp.ui.base.activity.adapters.MiniPostAdapter
 import com.example.caporal.tecnutriapp.ui.base.activity.base.BaseActivity;
 import com.example.caporal.tecnutriapp.ui.base.activity.presenter.ProfileActivityPresenter;
 import com.example.caporal.tecnutriapp.ui.base.activity.presenter.implementation.ProfileImpl;
+import com.mopub.mobileads.MoPubView;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-import static com.example.caporal.tecnutriapp.utils.Constants.CARD_PARCELABLE_STRING;
 import static com.example.caporal.tecnutriapp.utils.Constants.PROFILE_STRING_PARCELABLE;
 import static com.example.caporal.tecnutriapp.utils.Constants.MINI_POST_PAGE_SIZE;
 
@@ -41,11 +41,12 @@ public class ProfileActivity extends BaseActivity implements ProfileActivityPres
     ImageView profileImage;
     @BindView(R.id.profile_recycler)
     RecyclerView profileRecycler;
+    @BindView(R.id.item_ad)
+    MoPubView moPubView;
 
     private ProfileImpl presenter;
     private MiniPostAdapter miniPostAdapter;
     private Profile profile;
-    private Card card;
     private boolean isRequesting = false;
 
     @Override
@@ -60,9 +61,7 @@ public class ProfileActivity extends BaseActivity implements ProfileActivityPres
         Bundle extras = getIntent().getExtras();
         if (extras != null) {
             profile = extras.getParcelable(PROFILE_STRING_PARCELABLE);
-            card = extras.getParcelable(CARD_PARCELABLE_STRING);
             presenter.setProfile(profile);
-            presenter.setCard(card);
         }
 
         profileRecycler.setLayoutManager(new StaggeredGridLayoutManager(3, StaggeredGridLayoutManager.VERTICAL));
@@ -94,6 +93,18 @@ public class ProfileActivity extends BaseActivity implements ProfileActivityPres
         });
 
         setRefreshing(true);
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        if(getAdsVisibility()){
+            moPubView.loadAd();
+            moPubView.setVisibility(View.VISIBLE);
+        }else {
+            moPubView.setVisibility(View.GONE);
+            moPubView.destroy();
+        }
     }
 
     @Override

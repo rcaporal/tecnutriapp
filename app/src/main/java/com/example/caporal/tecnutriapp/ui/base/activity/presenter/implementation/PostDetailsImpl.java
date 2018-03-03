@@ -5,7 +5,6 @@ import android.content.Intent;
 import android.widget.ImageView;
 
 import com.example.caporal.tecnutriapp.R;
-import com.example.caporal.tecnutriapp.domain.entity.Card;
 import com.example.caporal.tecnutriapp.domain.entity.Food;
 import com.example.caporal.tecnutriapp.domain.entity.Meal;
 import com.example.caporal.tecnutriapp.domain.entity.Profile;
@@ -13,12 +12,11 @@ import com.example.caporal.tecnutriapp.domain.repository.PostRepository;
 import com.example.caporal.tecnutriapp.ui.base.activity.ProfileActivity;
 import com.example.caporal.tecnutriapp.ui.base.activity.adapters.PostAdapter;
 import com.example.caporal.tecnutriapp.ui.base.activity.presenter.PostDetailsActivityPresenter;
-import com.example.caporal.tecnutriapp.utils.Constants;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 
-import static com.example.caporal.tecnutriapp.utils.Constants.CARD_PARCELABLE_STRING;
+import static com.example.caporal.tecnutriapp.utils.Constants.IS_LIKED_STRING;
 import static com.example.caporal.tecnutriapp.utils.Constants.PROFILE_STRING_PARCELABLE;
 
 /**
@@ -77,12 +75,15 @@ public class PostDetailsImpl implements PostDetailsActivityPresenter {
                 .into(imageView);
     }
 
-    public void goToProfileActivity(Profile profile, Card card){
+    public void goToProfileActivity(Profile profile, boolean isLiked){
         Activity activity = view.getActivityFromView();
         Intent intent = new Intent(activity, ProfileActivity.class);
         intent.putExtra(PROFILE_STRING_PARCELABLE, profile);
-        intent.putExtra(CARD_PARCELABLE_STRING, card);
+        intent.putExtra(IS_LIKED_STRING, isLiked);
         activity.startActivity(intent);
     }
 
+    public String getFeedHash() {
+        return feedHash;
+    }
 }

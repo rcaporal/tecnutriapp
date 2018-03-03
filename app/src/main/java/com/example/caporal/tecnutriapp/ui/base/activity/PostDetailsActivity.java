@@ -6,7 +6,6 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
@@ -15,7 +14,6 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.caporal.tecnutriapp.R;
-import com.example.caporal.tecnutriapp.domain.entity.Card;
 import com.example.caporal.tecnutriapp.domain.entity.LikeEvent;
 import com.example.caporal.tecnutriapp.domain.entity.Meal;
 import com.example.caporal.tecnutriapp.domain.entity.Profile;
@@ -25,6 +23,7 @@ import com.example.caporal.tecnutriapp.ui.base.activity.base.BaseActivity;
 import com.example.caporal.tecnutriapp.ui.base.activity.presenter.PostDetailsActivityPresenter;
 import com.example.caporal.tecnutriapp.ui.base.activity.presenter.implementation.PostDetailsImpl;
 import com.example.caporal.tecnutriapp.utils.DateUtils;
+import com.mopub.mobileads.MoPubView;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
@@ -34,8 +33,8 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import de.hdodenhof.circleimageview.CircleImageView;
 
-import static com.example.caporal.tecnutriapp.utils.Constants.CARD_PARCELABLE_STRING;
 import static com.example.caporal.tecnutriapp.utils.Constants.FEED_HASH_STRING_PARCELABLE;
+import static com.example.caporal.tecnutriapp.utils.Constants.IS_LIKED_STRING;
 import static com.example.caporal.tecnutriapp.utils.Constants.PROFILE_STRING_PARCELABLE;
 
 /**
@@ -74,12 +73,14 @@ public class PostDetailsActivity extends BaseActivity implements PostDetailsActi
     TextView fatTextView;
     @BindView(R.id.card_header_layout)
     LinearLayout cardHeaderLayout;
+    @BindView(R.id.item_ad)
+    MoPubView moPubView;
 
     private PostDetailsImpl presenter;
     private PostAdapter postAdapter;
     private RecyclerView.LayoutManager linearLayoutManager;
     private Profile profile;
-    private Card card;
+    private boolean isLiked = false;
     private String[] mealTypeArray;
     private EventBus bus;
 
@@ -99,7 +100,7 @@ public class PostDetailsActivity extends BaseActivity implements PostDetailsActi
         if (extras != null) {
             profile = extras.getParcelable(PROFILE_STRING_PARCELABLE);
             presenter.setFeedHash(extras.getString(FEED_HASH_STRING_PARCELABLE));
-            card = extras.getParcelable(CARD_PARCELABLE_STRING);
+            isLiked = extras.getBoolean(IS_LIKED_STRING);
         }
 
         linearLayoutManager = new LinearLayoutManager(this) {
@@ -120,11 +121,11 @@ public class PostDetailsActivity extends BaseActivity implements PostDetailsActi
         cardHeaderLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                presenter.goToProfileActivity(profile, card);
+                presenter.goToProfileActivity(profile, isLiked);
             }
         });
 
-        if(card.isLiked()) {
+        if(isLiked) {
             likeButton.setImageResource(R.drawable.ic_favorite_red_24dp);
         }else {
             likeButton.setImageResource(R.drawable.ic_favorite_border_white_24dp);
@@ -133,22 +134,34 @@ public class PostDetailsActivity extends BaseActivity implements PostDetailsActi
         likeButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if(card.isLiked()) {
-                    card.setLiked(false);
-                    LikePersistenceRepository.saveOrUpdate(card);
+                if(isLiked) {
+                    isLiked = false;
+                    LikePersistenceRepository.saveOrUpdate(new LikeEvent(presenter.getFeedHash(), isLiked));
                     likeButton.setImageResource(R.drawable.ic_favorite_border_white_24dp);
-                    EventBus.getDefault().post(new LikeEvent(card.getFeedHash(), card.isLiked()));
+                    EventBus.getDefault().post(new LikeEvent(presenter.getFeedHash(), isLiked));
 
                 }else {
-                    card.setLiked(true);
-                    LikePersistenceRepository.saveOrUpdate(card);
+                    isLiked = true;
+                    LikePersistenceRepository.saveOrUpdate(new LikeEvent(presenter.getFeedHash(), isLiked));
                     likeButton.setImageResource(R.drawable.ic_favorite_red_24dp);
-                    EventBus.getDefault().post(new LikeEvent(card.getFeedHash(), card.isLiked()));
+                    EventBus.getDefault().post(new LikeEvent(presenter.getFeedHash(), isLiked));
                 }
             }
         });
 
         bus.register(this);
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        if(getAdsVisibility()){
+            moPubView.loadAd();
+            moPubView.setVisibility(View.VISIBLE);
+        }else {
+            moPubView.setVisibility(View.GONE);
+            moPubView.destroy();
+        }
     }
 
     @Override
@@ -211,12 +224,12 @@ public class PostDetailsActivity extends BaseActivity implements PostDetailsActi
 
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onEvent(LikeEvent event){
-        if(card.getFeedHash().equals(event.getFeedHash()) && card.isLiked() != event.isLiked()){
+        if(presenter.getFeedHash().equals(event.getFeedHash()) && isLiked != event.isLiked()){
             if(event.isLiked()){
-                card.setLiked(event.isLiked());
+                isLiked = event.isLiked();
                 likeButton.setImageResource(R.drawable.ic_favorite_red_24dp);
             }else {
-                card.setLiked(event.isLiked());
+                isLiked = event.isLiked();
                 likeButton.setImageResource(R.drawable.ic_favorite_border_white_24dp);
             }
         }

@@ -5,6 +5,7 @@ import android.support.annotation.Nullable;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.view.View;
 import android.widget.ImageView;
 import android.widget.Toast;
 
@@ -15,6 +16,7 @@ import com.example.caporal.tecnutriapp.ui.base.activity.adapters.FeedAdapter;
 import com.example.caporal.tecnutriapp.ui.base.activity.base.BaseActivity;
 import com.example.caporal.tecnutriapp.ui.base.activity.presenter.MainActivityPresenter;
 import com.example.caporal.tecnutriapp.ui.base.activity.presenter.implementation.MainImpl;
+import com.mopub.mobileads.MoPubView;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
@@ -24,11 +26,14 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import io.fabric.sdk.android.Fabric;
 import io.realm.Realm;
+import io.realm.RealmConfiguration;
 
 public class MainActivity extends BaseActivity implements MainActivityPresenter.View{
 
     @BindView(R.id.main_recycler_view)
     RecyclerView mainRecyclerView;
+    @BindView(R.id.item_ad)
+    MoPubView moPubView;
 
 
     private FeedAdapter feedAdapter;
@@ -42,7 +47,13 @@ public class MainActivity extends BaseActivity implements MainActivityPresenter.
         super.onCreate(savedInstanceState);
         ButterKnife.bind(this);
         Fabric.with(this, new Crashlytics());
+
         Realm.init(getApplicationContext());
+        RealmConfiguration config = new RealmConfiguration
+                .Builder()
+                .deleteRealmIfMigrationNeeded()
+                .build();
+        Realm.setDefaultConfiguration(config);
 
         bus = EventBus.getDefault();
         presenter = new MainImpl();
@@ -71,6 +82,18 @@ public class MainActivity extends BaseActivity implements MainActivityPresenter.
             }
         });
         bus.register(this);
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        if(getAdsVisibility()){
+            moPubView.loadAd();
+            moPubView.setVisibility(View.VISIBLE);
+        }else {
+            moPubView.setVisibility(View.GONE);
+            moPubView.destroy();
+        }
     }
 
     @Override
