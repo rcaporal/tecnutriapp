@@ -9,7 +9,7 @@ Aplicativo desenvolvido de acordo com as seguintes especificações:
  - Carregamento de imagens utilizando Picasso.
  - Requisições de endpoints utilizando Retrofit.
  - Armazenamento de dados locais utilizando Realm.
- - Dois flavours distintos com cores diferente (Laranja e Ciano).
+ - Dois flavours distintos com cores diferentes (Laranja e Ciano).
  - Contém os idiomas 'pt' e 'en'.
 
 ## Tela 1 - Feed Activity
@@ -49,7 +49,7 @@ Aplicativo desenvolvido de acordo com as seguintes especificações:
 
 <img width="200" alt="Tela 3 - Profile Activity" src="https://i.imgur.com/F9L8bM4.png">
 
-#### Comṕortamento: OK
+#### Comportamento: OK
   * Um json é recebido do endpoint com os dados do perfil do usuário e uma série de posts (key: "items") com cada um dos cards que irá mostrar. Ao tocar em algum card, abre-se a tela dos detalhes do post (Tela 2 - Post Details Activity).
   
 #### Paginação: OK
